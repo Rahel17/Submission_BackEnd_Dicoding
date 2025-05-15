@@ -1,7 +1,7 @@
-const { nanoid } = require("nanoid");
-const books = require("./books");
+import { nanoid } from "nanoid";
+import { books } from "./books.js";
 
-const addBookHandler = (request, h) => {
+export const addBookHandler = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
 
   if (!name) {
@@ -66,7 +66,7 @@ const addBookHandler = (request, h) => {
     .code(500);
 };
 
-const getAllBooksHandler = (request) => {
+export const getAllBooksHandler = (request) => {
   const { name, reading, finished } = request.query;
 
   let filteredBooks = books;
@@ -101,8 +101,7 @@ const getAllBooksHandler = (request) => {
   };
 };
 
-
-const getBookByIdHandler = (request, h) => {
+export const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const book = books.find((b) => b.id === bookId);
 
@@ -123,7 +122,7 @@ const getBookByIdHandler = (request, h) => {
     .code(404);
 };
 
-const editBookByIdHandler = (request, h) => {
+export const editBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
 
@@ -181,7 +180,7 @@ const editBookByIdHandler = (request, h) => {
     .code(200);
 };
 
-const deleteBookByIdHandler = (request, h) => {
+export const deleteBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const index = books.findIndex((book) => book.id === bookId);
 
@@ -202,12 +201,4 @@ const deleteBookByIdHandler = (request, h) => {
       message: "Buku berhasil dihapus",
     })
     .code(200);
-};
-
-module.exports = {
-  addBookHandler,
-  getAllBooksHandler,
-  getBookByIdHandler,
-  editBookByIdHandler,
-  deleteBookByIdHandler,
 };
